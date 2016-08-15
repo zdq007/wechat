@@ -3,13 +3,13 @@ package mp
 	主动调用微信接口在此封装
  */
 import (
-	"common"
+	"github.com/zdq007/wechat/common"
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
 	JSON "github.com/bitly/go-simplejson"
 	"time"
-	"wechat"
+	"github.com/zdq007/wechat/wechat"
 )
 
 /**
