@@ -17,8 +17,8 @@ import (
 	"encoding/xml"
 	"github.com/gogap/errors"
 	"strings"
-	"wechat"
-	"wechat/tools"
+	"github.com/zdq007/wechat/wechat"
+	"github.com/zdq007/wechat/wechat/tools"
 )
 //处理消息
 type MSGHandle struct{
