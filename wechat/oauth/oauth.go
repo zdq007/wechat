@@ -4,8 +4,8 @@
 package oauth
 
 import (
-	util "common"
-	"wechat"
+	util "github.com/zdq007/wechat/common"
+	"github.com/zdq007/wechat/wechat"
 	"errors"
 	"fmt"
 )

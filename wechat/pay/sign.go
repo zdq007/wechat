@@ -2,7 +2,7 @@ package pay
 
 import (
 	"bytes"
-	"wechat"
+	"github.com/zdq007/wechat/wechat"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"

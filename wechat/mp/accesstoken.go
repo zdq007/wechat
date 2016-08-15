@@ -6,8 +6,8 @@
 package mp
 
 import (
-	util "core/common"
-	"wechat"
+	util "github.com/zdq007/wechat/common"
+	"github.com/zdq007/wechat/wechat"
 	"encoding/base64"
 	"fmt"
 	"github.com/go-ini/ini"

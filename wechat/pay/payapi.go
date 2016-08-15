@@ -6,7 +6,7 @@ package pay
 import (
 	"time"
 
-	"common"
+	"github.com/zdq007/wechat/common"
 )
 
 //微信公众号支付－统一下单

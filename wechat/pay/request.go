@@ -5,8 +5,8 @@ package pay
 
 import (
 	"bytes"
-	util "common"
-	"wechat"
+	util "github.com/zdq007/wechat/common"
+	"github.com/zdq007/wechat/wechat"
 	"encoding/xml"
 	"errors"
 	"fmt"
