@@ -6,12 +6,12 @@
 package mp
 
 import (
-	util "github.com/zdq007/wechat/common"
-	"github.com/zdq007/wechat/wechat"
 	"encoding/base64"
 	"fmt"
 	"github.com/go-ini/ini"
 	log "github.com/gogap/logrus"
+	util "github.com/zdq007/wechat/common"
+	"github.com/zdq007/wechat/wechat"
 	"os"
 	"regexp"
 	"sync"
@@ -88,6 +88,7 @@ func Initialize(appId, appSecret, token, encodingAESKey string) {
 	//获取access token
 	fetchAccessToken()
 }
+
 /**
 微信初始化方法
 appId  			公众号id
@@ -107,6 +108,7 @@ func InitializeSimple(appId, appSecret string) {
 	//获取access token
 	fetchAccessToken()
 }
+
 //开启mp后台worker，定时检测更新access token
 func fetchAccessToken() {
 	mper = new(MP)
@@ -178,8 +180,10 @@ func (self *MP) isExpiress() bool {
 //更新token
 func (self *MP) updateToken() {
 	self.token = self.getAccessToken()
-	self.ticket = self.getJsApiTicket(self.token.AccessToken)
-	self.expiresTime = self.token.Expiress + time.Now().Unix()
+	if self.token != nil {
+		self.expiresTime = self.token.Expiress + time.Now().Unix()
+		self.ticket = self.getJsApiTicket(self.token.AccessToken)
+	}
 	if self.token != nil && self.ticket != nil {
 		//保存token到文件
 		weSec := self.storageConfig.Section("wechat")
@@ -199,6 +203,7 @@ func (self *MP) getJsApiTicket(accessToken string) *Ticket {
 	if err == nil {
 		return ticket
 	}
+	log.Error("获取JSAPI调用票据:", err)
 	return nil
 }
 
@@ -210,6 +215,7 @@ func (self *MP) getAccessToken() *Token {
 	if err == nil {
 		return token
 	}
+	log.Error("获取公众号token:", err)
 	return nil
 }
 
