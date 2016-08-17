@@ -3,7 +3,9 @@ package po
 import (
 	"time"
 )
-
+/**
+	素材组信息
+ */
 type TMpMedia struct {
 	MediaId    string `gorm:"COLUMN:media_id"`
 	Type       string
