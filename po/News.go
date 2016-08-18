@@ -3,7 +3,7 @@ package po
 	图文素材信息
  */
 type TMpNews struct {
-	Id               int64
+	Id               int64 `gorm:"primary_key"`
 	MediaId          string
 	Title            string
 	Author           string
