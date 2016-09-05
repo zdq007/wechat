@@ -7,7 +7,7 @@ import (
 	素材组信息
  */
 type TMpMedia struct {
-	MediaId    string `gorm:"COLUMN:media_id;primary_key"`
+	MediaId    string `gorm:"COLUMN:media_id"`
 	Type       string
 	Synctime   int64
 	Createtime int64
