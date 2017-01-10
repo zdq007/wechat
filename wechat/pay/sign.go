@@ -67,6 +67,7 @@ func SignObjectToXML(paramObj interface{}, bodybuff *bytes.Buffer) error {
 	sort.Strings(params)
 	params = append(params, "key="+wechat.WX_PAY_KEY)
 	stringSign := strings.Join(params, "&")
+	fmt.Println("stringSign:",stringSign)
 	sum := md5.Sum([]byte(stringSign))
 	//fmt.Println("stringSign:", stringSign)
 	sign := strings.ToUpper(hex.EncodeToString(sum[:]))

@@ -74,9 +74,9 @@ func ParseFullMsg(fullMsg []byte) (randBytes []byte, msgLen int, msg []byte, app
 	randBytes = fullMsg[:16]
 
 	msgLen = (int(fullMsg[16]) << 24) |
-	(int(fullMsg[17]) << 16) |
-	(int(fullMsg[18]) << 8) |
-	int(fullMsg[19])
+		(int(fullMsg[17]) << 16) |
+		(int(fullMsg[18]) << 8) |
+		int(fullMsg[19])
 	// log.Tracef("msgLen=[% x]=(%d %d %d %d)=%d", fullMsg[16:20], (int(fullMsg[16]) << 24),
 	// 	(int(fullMsg[17]) << 16), (int(fullMsg[18]) << 8), int(fullMsg[19]), msgLen)
 

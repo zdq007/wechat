@@ -89,7 +89,7 @@ func (self *MSGHandle) handleMessage(msg * Message){
 	switch msg.MsgType {
 	case MsgTypeEvent:
 		self.HandleEvent(msg)
-		//事件
+	//事件
 
 	}
 

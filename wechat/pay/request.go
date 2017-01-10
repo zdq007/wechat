@@ -19,16 +19,15 @@ import (
 * 统一下单接口 公众号支付
 **/
 func UnifiedOrder(req *UnifiedorderReq) (res *UnifiedorderResp, err error) {
-	req.Appid = wechat.WX_AppID
+	req.Appid = wechat.WX_APP_ID
 	req.MchId = wechat.WX_PAY_MCHID
 	req.NonceStr = util.GetRandomString(12)
 	res = new(UnifiedorderResp)
 	if err = PostXML(wechat.WX_PAY_UNIFIEDORDER, *req, res); err != nil {
 		return
 	}
-	fmt.Println(res.ErrCode)
 	if res.ResultCode != wechat.ResultCodeSuccess {
-		err = errors.New(fmt.Sprintf("order_num: %v, result_code: %v, result_msg: %v", req.OutTradeNo, res.ResultCode, res.ErrCodeDes))
+		err = errors.New(fmt.Sprintf("return_msg:%v, order_num: %v, result_code: %v, result_msg: %v",res.ReturnMsg, req.OutTradeNo, res.ResultCode, res.ErrCodeDes))
 		return
 	}
 	if err = VilidataResp(*res); err != nil {
@@ -49,8 +48,8 @@ func VilidataResp(res Resp) (err error) {
 	}
 	appId := res.GetAppId()
 	// 安全考虑, 做下验证
-	if appId != wechat.WX_AppID {
-		err = fmt.Errorf("appid mismatch, have: %v, want: %v", appId, wechat.WX_AppID)
+	if appId != wechat.WX_APP_ID {
+		err = fmt.Errorf("appid mismatch, have: %v, want: %v", appId, wechat.WX_APP_ID)
 		return
 	}
 	mchId := res.GetMchId()
@@ -93,7 +92,6 @@ func PostXML(url string, req interface{}, res Resp) (err error) {
 		err = fmt.Errorf("http.Status: %s", httpResp.Status)
 		return
 	}
-
 	err = xml.NewDecoder(httpResp.Body).Decode(res)
 	if err != nil {
 		return

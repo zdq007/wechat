@@ -130,3 +130,7 @@ func (self *Client) refreshToken() {
 func (self *Client) isExpiresToken() {
 
 }
+
+func AuthUrl(backurl string) string{
+	return fmt.Sprintf(wechat.WX_OAUATH_CODE, wechat.WX_APP_ID, backurl, "")
+}
