@@ -28,7 +28,7 @@ var (
 type MP struct {
 	token  *Token
 	ticket *Ticket
-					   //过期时间
+	//过期时间
 	expiresTime   int64
 	storageConfig *ini.File
 	timerGear     byte // 0 1秒一次 1 2分钟一次
@@ -141,7 +141,7 @@ func (self *MP) tokenTimer() {
 			} else {
 				log.Debug("AccessToken 未过期")
 			}
-		//判定是否修改accesstoken检测时间间隔
+			//判定是否修改accesstoken检测时间间隔
 			ticker = self.getTicker(ticker)
 			log.Debug("AccessToken 定时检测结束")
 		}

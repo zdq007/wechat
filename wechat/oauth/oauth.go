@@ -4,10 +4,10 @@
 package oauth
 
 import (
-	util "github.com/zdq007/wechat/common"
-	"github.com/zdq007/wechat/wechat"
 	"errors"
 	"fmt"
+	util "github.com/zdq007/wechat/common"
+	"github.com/zdq007/wechat/wechat"
 )
 
 type AuthError struct {
@@ -131,6 +131,6 @@ func (self *Client) isExpiresToken() {
 
 }
 
-func AuthUrl(backurl string) string{
+func AuthUrl(backurl string) string {
 	return fmt.Sprintf(wechat.WX_OAUATH_CODE, wechat.WX_APP_ID, backurl, "")
 }

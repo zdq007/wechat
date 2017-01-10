@@ -5,11 +5,11 @@ package pay
 
 import (
 	"bytes"
-	util "github.com/zdq007/wechat/common"
-	"github.com/zdq007/wechat/wechat"
 	"encoding/xml"
 	"errors"
 	"fmt"
+	util "github.com/zdq007/wechat/common"
+	"github.com/zdq007/wechat/wechat"
 	"net/http"
 )
 
@@ -27,7 +27,7 @@ func UnifiedOrder(req *UnifiedorderReq) (res *UnifiedorderResp, err error) {
 		return
 	}
 	if res.ResultCode != wechat.ResultCodeSuccess {
-		err = errors.New(fmt.Sprintf("return_msg:%v, order_num: %v, result_code: %v, result_msg: %v",res.ReturnMsg, req.OutTradeNo, res.ResultCode, res.ErrCodeDes))
+		err = errors.New(fmt.Sprintf("return_msg:%v, order_num: %v, result_code: %v, result_msg: %v", res.ReturnMsg, req.OutTradeNo, res.ResultCode, res.ErrCodeDes))
 		return
 	}
 	if err = VilidataResp(*res); err != nil {

@@ -1,15 +1,16 @@
 package mp
+
 /**
-	主动调用微信接口在此封装
- */
+主动调用微信接口在此封装
+*/
 import (
-	"github.com/zdq007/wechat/common"
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
 	JSON "github.com/bitly/go-simplejson"
-	"time"
+	"github.com/zdq007/wechat/common"
 	"github.com/zdq007/wechat/wechat"
+	"time"
 )
 
 /**
@@ -35,4 +36,3 @@ func SignJSSDK(url string) *SignRespone {
 	fmt.Println("jssdk Signature:", hex.EncodeToString(hsum[:]))
 	return &SignRespone{Appid: wechat.WX_APP_ID, Noncestr: noncestr, Timestamp: timestamp, Signature: hex.EncodeToString(hsum[:])}
 }
-

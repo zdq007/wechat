@@ -1,10 +1,12 @@
 package mp
+
 /**
-	各种消息的封装类
- */
+各种消息的封装类
+*/
 
 // 接收普通消息
 type MsgType string
+
 // 微信支持的消息类型
 const (
 	MsgTypeText       MsgType = "text"       // 文本消息

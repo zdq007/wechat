@@ -1,15 +1,15 @@
 package mp
+
 /**
-	消息通用的基础封装
- */
+消息通用的基础封装
+*/
 import "encoding/xml"
 
 //消息和事件处理接口
-type MsgHandleDelegater interface{
+type MsgHandleDelegater interface {
 	//群发消息结束状态推送
 	MsgSendStatus(msg *Message)
 }
-
 
 // EncMessage 加密消息体
 type EncMessage struct {
@@ -30,13 +30,13 @@ type Message struct {
 	CreateTime   string   // 消息创建时间（整型）
 	MsgId        int      // 消息id，64位整型
 
-						  // text-文本消息，image-图片消息，voice-语音消息，
-						  // video-视频消息，shortvideo-小视频消息，
-						  // location-地理位置消息，link-链接消息，
-						  // music-音乐，news-图文消息
+	// text-文本消息，image-图片消息，voice-语音消息，
+	// video-视频消息，shortvideo-小视频消息，
+	// location-地理位置消息，link-链接消息，
+	// music-音乐，news-图文消息
 	MsgType MsgType
 
-						  // text-文本消息
+	// text-文本消息
 	Content string `xml:",omitempty"` // 文本消息内容
 
 	// image-图片消息

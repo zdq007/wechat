@@ -2,10 +2,10 @@ package pay
 
 import (
 	"bytes"
-	"github.com/zdq007/wechat/wechat"
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"github.com/zdq007/wechat/wechat"
 	"hash"
 	"reflect"
 	"sort"
@@ -67,7 +67,7 @@ func SignObjectToXML(paramObj interface{}, bodybuff *bytes.Buffer) error {
 	sort.Strings(params)
 	params = append(params, "key="+wechat.WX_PAY_KEY)
 	stringSign := strings.Join(params, "&")
-	fmt.Println("stringSign:",stringSign)
+	fmt.Println("stringSign:", stringSign)
 	sum := md5.Sum([]byte(stringSign))
 	//fmt.Println("stringSign:", stringSign)
 	sign := strings.ToUpper(hex.EncodeToString(sum[:]))

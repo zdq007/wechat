@@ -1,34 +1,36 @@
 package mp
+
 /**
-	解析微信消息和事件
-	微信TOKEN认证自动返回
-	将解析出来的msg对象对调给用户对应的方法
-	//部分参考
-	//"github.com/arstd/weixin"
- */
+解析微信消息和事件
+微信TOKEN认证自动返回
+将解析出来的msg对象对调给用户对应的方法
+//部分参考
+//"github.com/arstd/weixin"
+*/
 import (
-	"fmt"
-	"io/ioutil"
-	"sort"
 	"crypto/sha1"
 	"encoding/hex"
-	"net/http"
-	log "github.com/gogap/logrus"
 	"encoding/xml"
+	"fmt"
 	"github.com/gogap/errors"
-	"strings"
+	log "github.com/gogap/logrus"
 	"github.com/zdq007/wechat/wechat"
 	"github.com/zdq007/wechat/wechat/tools"
+	"io/ioutil"
+	"net/http"
+	"sort"
+	"strings"
 )
+
 //处理消息
-type MSGHandle struct{
-	MsgHandleDelegate  MsgHandleDelegater
+type MSGHandle struct {
+	MsgHandleDelegate MsgHandleDelegater
 }
 
-
-func NewHandle() *MSGHandle{
+func NewHandle() *MSGHandle {
 	return new(MSGHandle)
 }
+
 //推送的消息或者事件
 func (self *MSGHandle) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	fmt.Println(req.Method, " : ", req.RequestURI)
@@ -36,13 +38,13 @@ func (self *MSGHandle) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 	timestamp := req.FormValue("timestamp")
 	nonce := req.FormValue("nonce")
 
-	if  !ValidateURL(wechat.WX_DEVELOP_TOKEN, timestamp, nonce, signature){
+	if !ValidateURL(wechat.WX_DEVELOP_TOKEN, timestamp, nonce, signature) {
 		http.Error(resp, "validate url error, request not from weixin?", http.StatusUnauthorized)
 		return
 	}
 
 	fmt.Println("验证通过")
-	switch req.Method  {
+	switch req.Method {
 	case "GET":
 		resp.Write([]byte(req.FormValue("echostr")))
 	case "POST":
@@ -51,8 +53,9 @@ func (self *MSGHandle) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 		http.Error(resp, "validate url error, request not from weixin?", http.StatusUnauthorized)
 	}
 }
+
 //解析消息
-func (self *MSGHandle) processMessage(resp http.ResponseWriter, req *http.Request)  {
+func (self *MSGHandle) processMessage(resp http.ResponseWriter, req *http.Request) {
 	// 读取报文
 	body, err := ioutil.ReadAll(req.Body)
 	if err != nil {
@@ -60,20 +63,20 @@ func (self *MSGHandle) processMessage(resp http.ResponseWriter, req *http.Reques
 		http.Error(resp, "read body error", http.StatusNotAcceptable)
 		return
 	}
-	defer  req.Body.Close()
+	defer req.Body.Close()
 	q := req.URL.Query()
 	timestamp := q.Get("timestamp")
 	nonce := q.Get("nonce")
 	encryptType := q.Get("encrypt_type")
 	msgSignature := q.Get("msg_signature")
-	msg,err:= self.parseBody(encryptType,timestamp,nonce,msgSignature,body);
-	if err!=nil{
+	msg, err := self.parseBody(encryptType, timestamp, nonce, msgSignature, body)
+	if err != nil {
 		log.Error(err)
 		http.Error(resp, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	fmt.Println("消息体:",string(body))
+	fmt.Println("消息体:", string(body))
 
 	fmt.Println(msg)
 
@@ -84,12 +87,13 @@ func (self *MSGHandle) processMessage(resp http.ResponseWriter, req *http.Reques
 	resp.Write([]byte(""))
 
 }
+
 // 处理消息
-func (self *MSGHandle) handleMessage(msg * Message){
+func (self *MSGHandle) handleMessage(msg *Message) {
 	switch msg.MsgType {
 	case MsgTypeEvent:
 		self.HandleEvent(msg)
-	//事件
+		//事件
 
 	}
 
@@ -97,11 +101,12 @@ func (self *MSGHandle) handleMessage(msg * Message){
 func (self *MSGHandle) HandleEvent(msg *Message) {
 	switch msg.Event {
 	case MASSSENDJOBFINISH: //群发消息结束
-		if self.MsgHandleDelegate!=nil{
+		if self.MsgHandleDelegate != nil {
 			self.MsgHandleDelegate.MsgSendStatus(msg)
 		}
 	}
 }
+
 //前面三个参数是用来解析加密消息的
 func (self *MSGHandle) parseBody(encryptType, timestamp, nonce, msgSignature string, body []byte) (msg *Message, err error) {
 	msg = &Message{}
@@ -160,6 +165,6 @@ func ValidateURL(token, timestamp, nonce, signature string) bool {
 	strs := sort.StringSlice{token, timestamp, nonce}
 	strs.Sort()
 
-	hashsum := sha1.Sum([]byte(strings.Join(strs,"")))
+	hashsum := sha1.Sum([]byte(strings.Join(strs, "")))
 	return hex.EncodeToString(hashsum[:]) == signature
 }
